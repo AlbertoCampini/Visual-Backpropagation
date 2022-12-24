@@ -1,0 +1,22 @@
+{
+  "NeuralNetwork": {
+    "input_number": 3,
+    "layer_number": 3,
+    "neuron_number": [2,3,2],
+    "learning_rate": 0.15
+  },
+  "TrainingSet": {
+    "data": [{
+      "input": [0.1],
+      "target": [0.4,0.4]
+    },
+    {
+      "input": [0.6],
+      "target": [0.4,0.4]
+    },
+    {
+      "input": [1],
+      "target": [0.4,0.4]
+    }]
+  }
+}

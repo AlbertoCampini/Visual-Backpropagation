@@ -5,7 +5,7 @@ export class Neuron {
     id: number;
     layer: number;
     _signal_error: number;
-    _input_weights: Weight[]
+    _input_weights: Weight[] = []
 
     constructor(id: number, layer: number) {
         this.id = id;
@@ -20,11 +20,12 @@ export class Neuron {
         this._input_weights = value;
     }
 
+
     private getInput(): number {
         let output = 0;
         this._input_weights.forEach((w) => {
             //console.log("sono il neurone:",this.id," ",output," + ",w.weight,"*",w.to.getOutput())
-            output = output + w.weight * w.to.getOutput();
+            output = output + w.weight * w.from.getOutput();
         })
         return output;
     }

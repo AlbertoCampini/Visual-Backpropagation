@@ -3,6 +3,7 @@ import {Weight} from "./Weight";
 import {Input} from "./Input";
 import {NeuralNetwork} from "./NeuralNetwork";
 import math = require("mathjs");
+import vis = require("vis");
 
 /*
 let input_1 = new Input(1,-1,1) //Bias
@@ -28,5 +29,4 @@ hidden_neuron_1.input_weights(input_hidden_neuron_1)
 hidden_neuron_2.input_weights(input_hidden_neuron_2)
 visible_neuron.input_weights(hidden_layer_visible)
 */
-
 console.log(math.derivative("x^2","x"))
