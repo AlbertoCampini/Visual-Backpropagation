@@ -1,4 +1,5 @@
 import {Weight} from './Weight';
+import * as cons from './costants';
 
 export class Neuron {
     id: number;
@@ -22,23 +23,34 @@ export class Neuron {
     private getInput(): number {
         let output = 0;
         this._input_weights.forEach((w) => {
+            //console.log("sono il neurone:",this.id," ",output," + ",w.weight,"*",w.to.getOutput())
             output = output + w.weight * w.to.getOutput();
         })
         return output;
     }
 
     getOutput(): number {
-        return this.activationFunction(this.getInput())
+        return this.activationFunction()
     }
 
     getDerivative(): number{
-        //return 1
-        return Math.pow(Math.E,this.getOutput()*-1)/Math.pow(1+Math.pow(Math.E,this.getOutput()*-1),2)
+        switch (cons.ACTIVATION_FUNCTION){
+            case "relu":
+                return this.getInput() > 0 ? 1 : 0
+            case "sigmoid":
+                //console.log("la derivata prima di: ",this.getInput()," è ",Math.pow(Math.E,this.getInput()*-1)/Math.pow(1+Math.pow(Math.E,this.getInput()*-1),2))
+                return Math.pow(Math.E,this.getInput()*-1)/Math.pow(1+Math.pow(Math.E,this.getInput()*-1),2)
+        }
+
     }
 
-    private activationFunction(input): number {
-        return 1 / (1 + Math.pow(Math.E, -input)) //Sigmoide
-        //return input > 0 ? 1 : -1 //
-        //return input
+    private activationFunction(): number {
+        switch (cons.ACTIVATION_FUNCTION){
+            case "relu":
+                return this.getInput() > 0 ? 1 : 0
+            case "sigmoid":
+                //console.log("l'input al neurone ",this.id, " è: ",this.getInput(), " e con output: ",1 / (1 + Math.pow(Math.E, -this.getInput())))
+                return 1 / (1 + Math.pow(Math.E, -this.getInput()))
+        }
     }
 }
