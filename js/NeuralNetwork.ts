@@ -1,23 +1,24 @@
 import {Neuron} from "./Neuron";
 import {Input} from "./Input";
 import {Weight} from "./Weight";
+import {Dataset} from "./Dataset";
 import {neutronMassDependencies} from "mathjs";
 
-export class NeuralNetwork{
-    input: Input[]
+export class NeuralNetwork {
+    private _input: Input[]
     private readonly _network: Neuron[][]
     private _weights: Weight[] = []
     private readonly _learning_rate: number
-    private _visible_layer_level: number
+    private readonly _visible_layer_level: number
 
-    constructor(network: Neuron[][],input: Input[], learning_rate: number = 1) {
+    constructor(network: Neuron[][], input: Input[], learning_rate: number = 1) {
         this._network = network;
-        this.input = input;
+        this._input = input;
         this._learning_rate = learning_rate
-        this._visible_layer_level =  network.length - 1;
+        this._visible_layer_level = network.length - 1;
         for (let i = 0; i < network.length; i++) {
             for (let j = 0; j < network[i].length; j++) {
-                network[i][j]._input_weights.forEach((weight) =>{
+                network[i][j].input_weights.forEach((weight) => {
                     this._weights.push(weight)
                 })
             }
@@ -40,33 +41,23 @@ export class NeuralNetwork{
         return this._weights;
     }
 
-    updateWeights(){
-        for (let i = 0; i < this._network.length; i++) {
-            for (let j = 0; j < this._network[i].length; j++) {
-                this._network[i][j]._input_weights.forEach((weight) =>{
-                    this._weights.push(weight)
-                })
-            }
-        }
-    }
-
-    getNeuron(id: number): Neuron{
+    getNeuron(id: number): Neuron {
         let response = null
         for (let i = 0; i <= this._visible_layer_level && response === null; i++) {
-            this._network[i].forEach((neuron)=>{
-                if(neuron.id === id)
+            this._network[i].forEach((neuron) => {
+                if (neuron.id === id)
                     response = neuron
             })
         }
         return response
     }
 
-    getWeightByID(id: number): Weight{
+    getWeightByID(id: number): Weight {
         let response = null
         for (let i = 0; i < this._visible_layer_level; i++) {
-            this._network[i].forEach((neuron)=>{
-                neuron._input_weights.forEach((weight)=>{
-                    if(weight.id === id)
+            this._network[i].forEach((neuron) => {
+                neuron.input_weights.forEach((weight) => {
+                    if (weight.id === id)
                         response = weight
                 })
             })
@@ -74,41 +65,71 @@ export class NeuralNetwork{
         return response
     }
 
-    getWeightByConnection(id: number, neuron: Neuron): Weight{
+    getWeightByConnection(id: number, neuron: Neuron): Weight {
         let response = null
         let current_neuron = this.getNeuron(id)
-        if(current_neuron === null)
+        if (current_neuron === null)
             return null
-        current_neuron._input_weights.forEach((weight)=>{
-            if(weight.to === neuron)
+        current_neuron.input_weights.forEach((weight) => {
+            if (weight.to === neuron)
                 response = weight
         })
 
         return response
     }
 
-    getConnectedNeuron(id: number): Neuron[]{
+    getConnectedNeuron(id: number): Neuron[] {
         let current_neuron = this.getNeuron(id)
-        if(current_neuron === null)
+        if (current_neuron === null)
             return null
 
         let connected_neuron: Neuron[] = []
-        if(current_neuron.layer+1 > this._visible_layer_level)
+        if (current_neuron.layer + 1 > this._visible_layer_level)
             return null
-        this._network[current_neuron.layer+1].forEach((neuron) =>{
-            neuron._input_weights.forEach((weight)=>{
-                if(weight.to === current_neuron)
+        this._network[current_neuron.layer + 1].forEach((neuron) => {
+            neuron.input_weights.forEach((weight) => {
+                if (weight.to === current_neuron)
                     connected_neuron.push(weight.from)
             })
         })
         return connected_neuron
     }
 
-    evaluate(): number[]{
-        let result = [];
-        this._network[this._visible_layer_level].forEach((output_neuron) =>{
-            result.push(output_neuron.getOutput())
+    set input(value: any[]) {
+        this._input.forEach((network_input, index) => {
+            network_input.input = value[index]
         })
+    }
+
+    evaluate(dataset: Dataset = null) {
+        let result = [];
+        if (dataset === null) {
+            this._network[this._visible_layer_level].forEach((output_neuron) => {
+                result[0].output.push(output_neuron.getOutput())
+            })
+            this._input.forEach((input) => {
+                result[0].input.push(input.input)
+            })
+        } else {
+            dataset.input.forEach((dataset_input, result_index) => {
+                result[result_index] = {
+                    input: [],
+                    output: [],
+                    target: []
+                }
+                this._input.forEach((network_input, index) => {
+                    network_input.input = dataset_input[index] //prensento gli input alla rete
+                    result[result_index].input.push(dataset_input[index]) //inserisco nell'oggetto result il valore degli input
+                })
+                this._network[this._visible_layer_level].forEach((output_neuron, index) => {
+                    result[result_index].output.push(output_neuron.getOutput()) //salvo l'output ottenuto con la configuarazione di pesi corrente
+                    result[result_index].target.push(dataset.target[result_index][index]) //salvo il target che avrei voluto ricevere con quell'input
+                })
+
+            })
+
+        }
+
         return result;
     }
 }

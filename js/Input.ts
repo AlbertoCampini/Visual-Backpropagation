@@ -8,8 +8,12 @@ export class Input extends Neuron{
         this._input = input;
     }
 
-    input(value: number) {
+    set input(value: number) {
         this._input = value;
+    }
+
+    get input(): number {
+        return this._input;
     }
 
     getOutput(): number {

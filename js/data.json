@@ -1,22 +1,28 @@
 {
   "NeuralNetwork": {
-    "input_number": 3,
-    "layer_number": 3,
-    "neuron_number": [2,3,2],
-    "learning_rate": 0.15
+    "input_number": 2,
+    "layer_number": 2,
+    "neuron_number": [2,1],
+    "activation_function": "sigmoid",
+    "learning_rate": 0.5,
+    "bias": [1,1,1]
   },
-  "TrainingSet": {
+  "DataSet": {
     "data": [{
-      "input": [0.1],
-      "target": [0.4,0.4]
+      "input": [0,0],
+      "target": [0]
     },
-    {
-      "input": [0.6],
-      "target": [0.4,0.4]
-    },
-    {
-      "input": [1],
-      "target": [0.4,0.4]
-    }]
+      {
+        "input": [0,1],
+        "target": [1]
+      },{
+        "input": [1,0],
+        "target": [1]
+      },
+      {
+        "input": [1,1],
+        "target": [0]
+      }
+    ]
   }
 }

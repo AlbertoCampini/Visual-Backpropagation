@@ -2,21 +2,48 @@ import {Weight} from './Weight';
 import * as cons from './costants';
 
 export class Neuron {
-    id: number;
-    layer: number;
-    _signal_error: number;
-    _input_weights: Weight[] = []
+    private _id: number;
+    private _layer: number;
+    private readonly _activation_function: string;
+    private _signal_error: number;
+    private _input_weights: Weight[] = []
 
-    constructor(id: number, layer: number) {
-        this.id = id;
-        this.layer = layer;
+    constructor(id: number, layer: number, activation_function: string = cons.ACTIVATION_FUNCTION) {
+        this._activation_function = activation_function === null ? cons.ACTIVATION_FUNCTION : activation_function
+        this._id = id;
+        this._layer = layer;
     }
 
-    signal_error(value: number) {
+
+    get id(): number {
+        return this._id;
+    }
+
+    set id(value: number) {
+        this._id = value;
+    }
+
+    get layer(): number {
+        return this._layer;
+    }
+
+    set layer(value: number) {
+        this._layer = value;
+    }
+
+    set signal_error(value: number) {
         this._signal_error = value;
     }
 
-    input_weights(value: Weight[]) {
+    get signal_error(): number {
+        return this._signal_error;
+    }
+
+    get input_weights(): Weight[] {
+        return this._input_weights;
+    }
+
+    set input_weights(value: Weight[]) {
         this._input_weights = value;
     }
 
@@ -35,7 +62,7 @@ export class Neuron {
     }
 
     getDerivative(): number{
-        switch (cons.ACTIVATION_FUNCTION){
+        switch (this._activation_function){
             case "relu":
                 return this.getInput() > 0 ? 1 : 0
             case "sigmoid":
@@ -46,9 +73,9 @@ export class Neuron {
     }
 
     private activationFunction(): number {
-        switch (cons.ACTIVATION_FUNCTION){
+        switch (this._activation_function){
             case "relu":
-                return this.getInput() > 0 ? 1 : 0
+                return this.getInput() > 0 ? this.getInput() : 0
             case "sigmoid":
                 //console.log("l'input al neurone ",this.id, " è: ",this.getInput(), " e con output: ",1 / (1 + Math.pow(Math.E, -this.getInput())))
                 return 1 / (1 + Math.pow(Math.E, -this.getInput()))
