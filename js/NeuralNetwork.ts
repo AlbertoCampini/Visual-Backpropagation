@@ -71,7 +71,7 @@ export class NeuralNetwork {
         if (current_neuron === null)
             return null
         current_neuron.input_weights.forEach((weight) => {
-            if (weight.to === neuron)
+            if (weight.from === neuron)
                 response = weight
         })
 
@@ -88,8 +88,8 @@ export class NeuralNetwork {
             return null
         this._network[current_neuron.layer + 1].forEach((neuron) => {
             neuron.input_weights.forEach((weight) => {
-                if (weight.to === current_neuron)
-                    connected_neuron.push(weight.from)
+                if (weight.from === current_neuron)
+                    connected_neuron.push(weight.to)
             })
         })
         return connected_neuron

@@ -31,10 +31,12 @@ function backPropagation(nn: NeuralNetwork, dataset: Dataset): NeuralNetwork {
                     })
                 })
             } else {
-                let signal_error = 0
+
                 nn.network[i].forEach((neuron) => {
+                    let signal_error = 0
                     nn.getConnectedNeuron(neuron.id).forEach((connectedNeuron) => {
-                        signal_error = signal_error + connectedNeuron.signal_error * nn.getWeightByConnection(connectedNeuron.id, neuron).weight * neuron.getDerivative()
+                        //console.log("il segnale di errore del neurone: ",connectedNeuron.id," è: ",connectedNeuron.signal_error)
+                        signal_error = signal_error + (connectedNeuron.signal_error * nn.getWeightByConnection(connectedNeuron.id, neuron).weight * neuron.getDerivative())
                     })
 
                     neuron.input_weights.forEach((weight) => {
@@ -132,7 +134,7 @@ visible_neuron_2.input_weights(input_layer_visible_layer_2)
 nn = parseNetwork(data)
 dt = parseDataset(data)
 console.log(dt)
-console.log(nn.weights)
+//console.log(nn.weights)
 console.log(nn.evaluate(dt))
 
 let error = 1
@@ -142,21 +144,21 @@ while (error != 0 && max != 0){
     nn = backPropagation(nn, dt)
     let res = nn.evaluate(dt)
     res.forEach((res)=>{
-        error = error + res.target - (res.output > 0.5 ? 1: 0)
+        error = error + res.target - (res.output >= 0.5 ? 1: 0)
     })
 max--
 }
-
+//console.log(nn.weights)
     //nn.updateWeights()
-/*
+
 nn.network.forEach((level)=>{
     level.forEach((neuron)=>{
         neuron.input_weights.forEach((w)=>{
-            console.log(neuron.id,": to ", w.to.id, ", from ",w.from.id)
+            console.log(neuron.id,": to ", w.to.id, ", from ",w.from.id, w.weight)
         })
     })
 })
-*/
+
 
 console.log(nn.evaluate(dt))
 

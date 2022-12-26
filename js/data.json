@@ -2,10 +2,10 @@
   "NeuralNetwork": {
     "input_number": 2,
     "layer_number": 2,
-    "neuron_number": [2,1],
+    "neuron_number": [3,1],
     "activation_function": "sigmoid",
     "learning_rate": 0.5,
-    "bias": [1,1,1]
+    "bias": [1,1,1,1]
   },
   "DataSet": {
     "data": [{
@@ -18,6 +18,9 @@
       },{
         "input": [1,0],
         "target": [1]
+      },{
+        "input": [1,1],
+        "target": [0]
       }
     ]
   }

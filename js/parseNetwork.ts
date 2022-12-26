@@ -23,7 +23,7 @@ function parseNetwork(input): NeuralNetwork {
         id_neuron++
     }
 
-    for (let i = 0; i < input.NeuralNetwork.bias.length; i++) {
+    for (let i = 0; i < number_of_unit; i++) {
         bias_layer.push(new Bias(id_neuron, -1, 1))
         id_neuron++
     }
@@ -53,9 +53,13 @@ function parseNetwork(input): NeuralNetwork {
 
                 })
             }
-                current_weights.push(new Weight(id_weight, internal_layer[i][j], bias_layer[i], cons.getRandomArbitrary()))
+
+            if(bias_layer.length > 0){
+                current_weights.push(new Weight(id_weight, internal_layer[i][j], bias_layer[j*(i+1)+i], cons.getRandomArbitrary()))
                 id_weight++
-            internal_layer[i][j].input_weights = current_weights
+            }
+
+                internal_layer[i][j].input_weights = current_weights
         }
     }
 
