@@ -132,7 +132,7 @@ visible_neuron_2.input_weights(input_layer_visible_layer_2)
 nn = parseNetwork(data)
 dt = parseDataset(data)
 console.log(dt)
-//console.log(nn.weights)
+console.log(nn.weights)
 console.log(nn.evaluate(dt))
 
 let error = 1
@@ -148,6 +148,15 @@ max--
 }
 
     //nn.updateWeights()
+/*
+nn.network.forEach((level)=>{
+    level.forEach((neuron)=>{
+        neuron.input_weights.forEach((w)=>{
+            console.log(neuron.id,": to ", w.to.id, ", from ",w.from.id)
+        })
+    })
+})
+*/
 
 console.log(nn.evaluate(dt))
 

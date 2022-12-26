@@ -41,20 +41,20 @@ function parseNetwork(input): NeuralNetwork {
         for (let j = 0; j < input.NeuralNetwork.neuron_number[i]; j++) {
             let current_weights = []
             if (i === 0) {
-                input_layer.forEach((current_input,index) => {
+                input_layer.forEach((current_input) => {
                     current_weights.push(new Weight(id_weight, internal_layer[i][j], current_input, cons.getRandomArbitrary()))
                     id_weight++
-                    current_weights.push(new Weight(id_weight, internal_layer[i][j], bias_layer[index], cons.getRandomArbitrary()))
-                    id_weight++
                 })
+
             } else {
                 internal_layer[i - 1].forEach((neuron,index) => {
                     current_weights.push(new Weight(id_weight, internal_layer[i][j], neuron, cons.getRandomArbitrary()))
                     id_weight++
-                    current_weights.push(new Weight(id_weight, internal_layer[i][j], bias_layer[index], cons.getRandomArbitrary()))
-                    id_weight++
+
                 })
             }
+                current_weights.push(new Weight(id_weight, internal_layer[i][j], bias_layer[i], cons.getRandomArbitrary()))
+                id_weight++
             internal_layer[i][j].input_weights = current_weights
         }
     }
@@ -64,5 +64,5 @@ function parseNetwork(input): NeuralNetwork {
     if (number_of_unit === id_neuron && number_of_weight === id_weight) {
         console.log("success")
     }
-    return new NeuralNetwork(internal_layer, input_layer, 0.15)
+    return new NeuralNetwork(internal_layer, input_layer, input.NeuralNetwork.learning_rate)
 }
