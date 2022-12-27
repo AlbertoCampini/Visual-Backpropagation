@@ -6,12 +6,14 @@ export class Weight{
     private _to: Neuron;
     private _from: Neuron;
     private _weight: number;
+    private _label: string;
 
     constructor(id: number, to: Neuron, from: Neuron, weight: number) {
         this._id = id;
         this._to = to;
         this._from = from;
         this._weight = weight;
+        this._label = weight.toString()
     }
 
 
@@ -21,6 +23,14 @@ export class Weight{
 
     set id(value: number) {
         this._id = value;
+    }
+
+    get label(): string {
+        return this._label;
+    }
+
+    set label(value: string) {
+        this._label = value;
     }
 
     get to(): Neuron {
