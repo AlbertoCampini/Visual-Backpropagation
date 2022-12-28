@@ -7,6 +7,7 @@ export class Weight{
     private _from: Neuron;
     private _weight: number;
     private _label: string;
+    private _delta: number;
 
     constructor(id: number, to: Neuron, from: Neuron, weight: number) {
         this._id = id;
@@ -16,6 +17,14 @@ export class Weight{
         this._label = weight.toString()
     }
 
+
+    get delta(): number {
+        return this._delta;
+    }
+
+    set delta(value: number) {
+        this._delta = value;
+    }
 
     get id(): number {
         return this._id;

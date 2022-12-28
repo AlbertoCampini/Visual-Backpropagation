@@ -52,6 +52,10 @@ export class NeuralNetwork {
         return response
     }
 
+    /**
+     * Get the Weight identified by id passed
+     * @param id
+     */
     getWeightByID(id: number): Weight {
         let response = null
         for (let i = 0; i < this._visible_layer_level; i++) {
@@ -65,6 +69,11 @@ export class NeuralNetwork {
         return response
     }
 
+    /**
+     * Get the Weight that connect the neuron identified by id passed and neuron passed
+     * @param id
+     * @param neuron
+     */
     getWeightByConnection(id: number, neuron: Neuron): Weight {
         let response = null
         let current_neuron = this.getNeuron(id)
@@ -78,6 +87,10 @@ export class NeuralNetwork {
         return response
     }
 
+    /**
+     * Return a list of neuron connect with neuron identified by id passed
+     * @param id
+     */
     getConnectedNeuron(id: number): Neuron[] {
         let current_neuron = this.getNeuron(id)
         if (current_neuron === null)
@@ -101,7 +114,11 @@ export class NeuralNetwork {
         })
     }
 
-    evaluate(dataset: Dataset = null) {
+    /**
+     * Return the Result of Neural Network on each example contained into the passed dataset
+     * @param dataset
+     */
+    evaluate(dataset: Dataset = null){
         let result = [];
         if (dataset === null) {
             this._network[this._visible_layer_level].forEach((output_neuron) => {

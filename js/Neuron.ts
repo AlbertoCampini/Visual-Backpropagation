@@ -47,16 +47,21 @@ export class Neuron {
         this._input_weights = value;
     }
 
-
+    /**
+     * Evaluate the input for neuron v_j, this is the weighted sum of weigh and output of connected neuron
+     * @private
+     */
     private getInput(): number {
         let output = 0;
         this._input_weights.forEach((w) => {
-            //console.log("sono il neurone:",this.id," ",output," + ",w.weight,"*",w.to.getOutput())
             output = output + w.weight * w.from.getOutput();
         })
         return output;
     }
 
+    /**
+     * Evaluate the output y_j, this is the result of activation function application on neuron input v_j
+     */
     getOutput(): number {
         return this.activationFunction()
     }
