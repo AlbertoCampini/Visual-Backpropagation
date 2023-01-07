@@ -3,7 +3,7 @@ import {Input} from "./Input";
 import {Neuron} from "./Neuron";
 import data from "./data.json";
 import {Weight} from "./Weight";
-import * as cons from "./costants";
+import * as cons from "./constants";
 import {forEach} from "mathjs";
 import {Bias} from "./Bias";
 

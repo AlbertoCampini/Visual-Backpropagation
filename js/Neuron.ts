@@ -1,5 +1,5 @@
 import {Weight} from './Weight';
-import * as cons from './costants';
+import * as cons from './constants';
 
 export class Neuron {
     private _id: number;

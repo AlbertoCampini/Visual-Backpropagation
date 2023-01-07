@@ -4,8 +4,8 @@ import {Input} from "./Input";
 import {NeuralNetwork} from "./NeuralNetwork";
 import data from './data.json'
 import math = require("mathjs");
-import * as cons from './costants';
-import {fixNumber, getRandomArbitrary} from "./costants";
+import * as cons from './constants';
+import {fixNumber, getRandomArbitrary} from "./constants";
 import {Dataset} from "./Dataset";
 import {parseDataset} from "./parseDataset";
 import {parseNetwork} from "./parseNetwork";
